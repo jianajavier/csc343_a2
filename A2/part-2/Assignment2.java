@@ -89,7 +89,8 @@ public class Assignment2 {
 			rs = pStatement.executeQuery();
 
 			while (rs.next()) {
-				arrayList.add(name);
+
+				arrayList.add(rs.getString("name"));
 		 }
 		 Collections.sort(arrayList);
 
