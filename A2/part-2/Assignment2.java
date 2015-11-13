@@ -72,19 +72,9 @@ public class Assignment2 {
 		String queryString;
 		ArrayList<String> arrayList = new ArrayList<String>();
 
-		queryString = "CREATE VIEW GenreMatch AS
-		  SELECT Genre.genre_id, genre
-		  FROM Genre, Album
-		  WHERE Genre.genre_id = Album.genre_id;
-
-		CREATE VIEW ArtistAlbum AS
-		  SELECT name, genre_id
-		  FROM Artist, Album
-		  WHERE Artist.artist_id = Album.artist_id;
-
-		SELECT DISTINCT name
-		FROM GenreMatch, ArtistAlbum
-		WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre =" + genre;
+		queryString = "CREATE VIEW GenreMatch AS SELECT Genre.genre_id, genre FROM Genre, Album WHERE Genre.genre_id = Album.genre_id;" +
+		"CREATE VIEW ArtistAlbum AS SELECT name, genre_id FROM Artist, Album WHERE Artist.artist_id = Album.artist_id;" +
+		"SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre =" + genre;
 
 		pStatement = conn.prepareStatement(queryString);
 		rs = pStatement.executeQuery();
