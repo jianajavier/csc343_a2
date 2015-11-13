@@ -91,7 +91,7 @@ public class Assignment2 {
 			while (rs.next()) {
 				arrayList.add(name);
 		 }
-		 arrayList.sort();
+		 Collections.sort(arrayList);
 
 		 queryString = "DROP VIEW GenreMatch;"+
 		 "DROP VIEW ArtistAlbum;";
