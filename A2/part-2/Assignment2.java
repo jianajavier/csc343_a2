@@ -142,7 +142,7 @@ public class Assignment2 {
 			rs = pStatement.executeQuery();
 
 			while (rs.next()) {
-				arrayList.add(rs.getString("name"));
+				arrayList.add(rs.getString("artist"));
 		 }
 		 Collections.sort(arrayList);
 
