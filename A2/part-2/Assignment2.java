@@ -161,8 +161,8 @@ public class Assignment2 {
 		Assignment2 a2 = new Assignment2();
 
 		/* TODO: Change the database name and username to your own here. */
-		a2.connectDB("jdbc:postgresql://localhost:5432/csc343h-bogdan",
-		             "bogdan",
+		a2.connectDB("jdbc:postgresql://localhost:5432/csc343h-g5javier",
+		             "g5javier",
 		             "");
 
                 System.err.println("\n----- ArtistsInGenre -----");
