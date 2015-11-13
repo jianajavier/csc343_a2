@@ -89,7 +89,7 @@ public class Assignment2 {
 			rs = pStatement.executeQuery();
 
 			while (rs.next()) {
-				name = rs.getString("name");
+				String name = rs.getString("name");
 				System.out.println(name + "NAME");
 	      //  int i = 1;
 	        //while(i <= numberOfColumns) {
