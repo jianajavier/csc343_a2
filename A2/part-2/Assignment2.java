@@ -73,9 +73,8 @@ public class Assignment2 {
 		ArrayList<String> arrayList = new ArrayList<String>();
 
 		try {
-			queryString = "SET search_path TO artistdb; ";
-			pStatement = connection.prepareStatement(queryString);
-			rs = pStatement.executeQuery();
+			Statement statement = connection.createStatement();
+			statement.execute("SET search_path TO artistdb");
 
 
 			queryString = "CREATE VIEW GenreMatch AS SELECT Genre.genre_id, genre FROM Genre, Album WHERE Genre.genre_id = Album.genre_id;" +
