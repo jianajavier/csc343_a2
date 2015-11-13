@@ -6,7 +6,7 @@ This gives the right answer assuming that no songwriter means self songwriter (i
 
 CREATE VIEW AlbumsAll AS
   SELECT Album.album_id, song_id
-  FROM BelongsToAlbum RIGHT JOIN Album ON Album.album_id = BelongsToAlbum.album_id
+  FROM BelongsToAlbum RIGHT JOIN Album ON Album.album_id = BelongsToAlbum.album_id;
 
 CREATE VIEW SongAlbums AS
   SELECT AlbumsAll.album_id, songwriter_id, COUNT (AlbumsAll.song_id)

@@ -23,7 +23,7 @@ CREATE VIEW CollabGreater AS
   WHERE s.artist_id = g.artist_id and
         guestavg > soloavg;
 
-SELECT DISTINCT name, guestavg as avg_collab_sales
+SELECT DISTINCT name as artists, guestavg as avg_collab_sales
 FROM Artist, CollabGreater
 WHERE CollabGreater.artist_id = Artist.artist_id
 ORDER BY name;
