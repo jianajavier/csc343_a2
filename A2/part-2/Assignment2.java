@@ -78,10 +78,12 @@ public class Assignment2 {
 
 
 			queryString = "CREATE VIEW GenreMatch AS SELECT Genre.genre_id, genre FROM Genre, Album WHERE Genre.genre_id = Album.genre_id;" +
-			"CREATE VIEW ArtistAlbum AS SELECT name, genre_id FROM Artist, Album WHERE Artist.artist_id = Album.artist_id;" +
-			"SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre = \'" + genre + "\';" +
-			"DROP VIEW GenreMatch;"+
-			"DROP VIEW ArtistAlbum;";
+			"CREATE VIEW ArtistAlbum AS SELECT name, genre_id FROM Artist, Album WHERE Artist.artist_id = Album.artist_id;";
+
+			Statement statement2 = connection.createStatement();
+			statement2.executeUpdate(queryString);
+
+			queryString = "SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre = \'" + genre + "\';";
 
 			pStatement = connection.prepareStatement(queryString);
 			rs = pStatement.executeQuery();
@@ -94,6 +96,13 @@ public class Assignment2 {
 	            arrayList.add(name);
 	      //  }
 		 }
+
+		 queryString = "DROP VIEW GenreMatch;"+
+		 "DROP VIEW ArtistAlbum;";
+
+		 statement2 = connection.createStatement();
+		 statement2.executeUpdate(queryString);
+
 	 } catch (SQLException se)
 	 {
 	 System.err.println("SQL Exception." +
