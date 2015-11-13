@@ -83,7 +83,7 @@ public class Assignment2 {
 			"DROP VIEW GenreMatch; DROP VIEW ArtistAlbum;";
 
 			pStatement = connection.prepareStatement(queryString);
-			rs = pStatement.executeUpdate();
+			rs = pStatement.executeQuery();
 
 			while (rs.next()) {
 	      //  int i = 1;
