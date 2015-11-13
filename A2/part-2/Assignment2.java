@@ -89,13 +89,9 @@ public class Assignment2 {
 			rs = pStatement.executeQuery();
 
 			while (rs.next()) {
-				String name = rs.getString("name");
-				System.out.println(name + "NAME");
-	      //  int i = 1;
-	        //while(i <= numberOfColumns) {
-	            arrayList.add(name);
-	      //  }
+				arrayList.add(name);
 		 }
+		 arrayList.sort();
 
 		 queryString = "DROP VIEW GenreMatch;"+
 		 "DROP VIEW ArtistAlbum;";
