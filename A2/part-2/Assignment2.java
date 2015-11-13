@@ -72,18 +72,25 @@ public class Assignment2 {
 		String queryString;
 		ArrayList<String> arrayList = new ArrayList<String>();
 
-		queryString = "CREATE VIEW GenreMatch AS SELECT Genre.genre_id, genre FROM Genre, Album WHERE Genre.genre_id = Album.genre_id;" +
-		"CREATE VIEW ArtistAlbum AS SELECT name, genre_id FROM Artist, Album WHERE Artist.artist_id = Album.artist_id;" +
-		"SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre =" + genre;
+		try {
 
-		pStatement = conn.prepareStatement(queryString);
-		rs = pStatement.executeQuery();
+			queryString = "CREATE VIEW GenreMatch AS SELECT Genre.genre_id, genre FROM Genre, Album WHERE Genre.genre_id = Album.genre_id;" +
+			"CREATE VIEW ArtistAlbum AS SELECT name, genre_id FROM Artist, Album WHERE Artist.artist_id = Album.artist_id;" +
+			"SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre =" + genre;
 
-		while (rs.next()) {
-      //  int i = 1;
-        //while(i <= numberOfColumns) {
-            arrayList.add(rs.getString("name"));
-      //  }
+			pStatement = connection.prepareStatement(queryString);
+			rs = pStatement.executeQuery();
+
+			while (rs.next()) {
+	      //  int i = 1;
+	        //while(i <= numberOfColumns) {
+	            arrayList.add(rs.getString("name"));
+	      //  }
+		 }
+	 } catch (SQLException se)
+	 {
+	 System.err.println("SQL Exception." +
+					 "<Message>: " + se.getMessage());
 	 }
 
 		return arrayList;
