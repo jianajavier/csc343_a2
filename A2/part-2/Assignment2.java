@@ -124,8 +124,36 @@ public class Assignment2 {
 	 * @return        a sorted list of artist names
 	 */
 	public ArrayList<String> findCollaborators(String artist) {
+		PreparedStatement pStatement;
+		ResultSet rs;
+		String queryString;
+		ArrayList<String> arrayList = new ArrayList<String>();
 
-		return null;
+		try {
+			Statement statement = connection.createStatement();
+			statement.execute("SET search_path TO artistdb");
+
+			queryString = "SELECT name as artist FROM Artist, (select distinct artist2 as artist from Collaboration, Artist where artist1 = artist_id and name = ? UNION select distinct artist1 as artist from Collaboration, Artist where artist2 = artist_id and name = ?) as Collab WHERE Artist.artist_id = Collab.artist;";
+
+			pStatement = connection.prepareStatement(queryString);
+			pStatement.setString(1, artist);
+			pStatement.setString(2, artist);
+
+			rs = pStatement.executeQuery();
+
+			while (rs.next()) {
+				arrayList.add(rs.getString("name"));
+		 }
+		 Collections.sort(arrayList);
+
+
+	 } catch (SQLException se)
+	 {
+	 System.err.println("SQL Exception." +
+					 "<Message>: " + se.getMessage());
+	 }
+
+		return arrayList;
 	}
 
 
