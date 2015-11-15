@@ -83,9 +83,10 @@ public class Assignment2 {
 			Statement statement2 = connection.createStatement();
 			statement2.executeUpdate(queryString);
 
-			queryString = "SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre = \'" + genre + "\';";
+			queryString = "SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre = ?;";
 
 			pStatement = connection.prepareStatement(queryString);
+			pStatement.setString(1, genre);
 			rs = pStatement.executeQuery();
 
 			while (rs.next()) {
