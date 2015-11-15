@@ -172,8 +172,46 @@ public class Assignment2 {
 	 * @return        a sorted list of songwriter names
 	 */
 	public ArrayList<String> findSongwriters(String artist) {
+		PreparedStatement pStatement;
+		ResultSet rs;
+		String queryString;
+		ArrayList<String> arrayList = new ArrayList<String>();
 
-		return null;
+		try {
+			Statement statement = connection.createStatement();
+			statement.execute("SET search_path TO artistdb");
+
+
+			queryString = "CREATE VIEW SangByArtist AS SELECT album_id, Artist.artist_id AS artist_id FROM Album, Artist WHERE name =\'" + artist +  "\' and Artist.artist_id=Album.artist_id;" +
+				"CREATE VIEW SongsSangByArtist AS SELECT songwriter_id FROM BelongsToAlbum, Song WHERE BelongsToAlbum.song_id = Song.song_id and BelongsToAlbum.album_id IN (SELECT album_id from SangByArtist) and songwriter_id NOT IN (SELECT artist_id FROM SangByArtist)";
+
+			Statement statement2 = connection.createStatement();
+			statement2.executeUpdate(queryString);
+
+			queryString = "SELECT DISTINCT name FROM SongsSangByArtist, Artist WHERE songwriter_id = artist_id;";
+
+			pStatement = connection.prepareStatement(queryString);
+			rs = pStatement.executeQuery();
+
+			while (rs.next()) {
+
+				arrayList.add(rs.getString("name"));
+			}
+			Collections.sort(arrayList);
+
+			queryString = "DROP VIEW SangByArtist;"+
+				"DROP VIEW SongsSangByArtist;";
+
+			statement2 = connection.createStatement();
+			statement2.executeUpdate(queryString);
+
+		} catch (SQLException se)
+		{
+			System.err.println("SQL Exception." +
+					"<Message>: " + se.getMessage());
+		}
+
+		return arrayList;
 	}
 
 	/**
@@ -192,10 +230,47 @@ public class Assignment2 {
 	 * @return         a sorted list of artist names
 	 */
 	public ArrayList<String> findAcquaintances(String artist1, String artist2) {
+		PreparedStatement pStatement;
+		ResultSet rs;
+		String queryString;
+		ArrayList<String> arrayList = new ArrayList<String>();
 
-		return null;
+		try {
+			Statement statement = connection.createStatement();
+			statement.execute("SET search_path TO artistdb");
+
+
+			queryString = "CREATE VIEW GenreMatch AS SELECT Genre.genre_id, genre FROM Genre, Album WHERE Genre.genre_id = Album.genre_id;" +
+				"CREATE VIEW ArtistAlbum AS SELECT name, genre_id FROM Artist, Album WHERE Artist.artist_id = Album.artist_id;";
+
+			Statement statement2 = connection.createStatement();
+			statement2.executeUpdate(queryString);
+
+			queryString = "SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre = \'" + genre + "\';";
+
+			pStatement = connection.prepareStatement(queryString);
+			rs = pStatement.executeQuery();
+
+			while (rs.next()) {
+
+				arrayList.add(rs.getString("name"));
+			}
+			Collections.sort(arrayList);
+
+			queryString = "DROP VIEW GenreMatch;"+
+				"DROP VIEW ArtistAlbum;";
+
+			statement2 = connection.createStatement();
+			statement2.executeUpdate(queryString);
+
+		} catch (SQLException se)
+		{
+			System.err.println("SQL Exception." +
+					"<Message>: " + se.getMessage());
+		}
+
+		return arrayList;
 	}
-
 
 	public static void main(String[] args) {
 
