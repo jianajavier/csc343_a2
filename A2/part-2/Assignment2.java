@@ -240,7 +240,6 @@ public class Assignment2 {
 			ArrayList<String> acquaintances1 = new ArrayList<String>();
 			acquaintances1.addAll(collaboratersfor1);	
 			acquaintances1.addAll(writersfor1);
-			System.err.print(acquaintances1.size());	
 			ArrayList<String> acquaintances2 = new ArrayList<String>();
 			acquaintances2.addAll(collaboratersfor2);	
 			acquaintances2.addAll(writersfor2);
@@ -248,7 +247,6 @@ public class Assignment2 {
 			for (int i = 0; i < acquaintances1.size(); i++){
 				for (int j = 0; j < acquaintances2.size(); j++){
 					if (acquaintances1.get(i).equals(acquaintances2.get(j))){
-						System.out.println(acquaintances1.get(i));
 						arrayList.add(acquaintances2.get(j));
 					}
 				}
