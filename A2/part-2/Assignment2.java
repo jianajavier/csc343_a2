@@ -83,10 +83,9 @@ public class Assignment2 {
 			Statement statement2 = connection.createStatement();
 			statement2.executeUpdate(queryString);
 
-			queryString = "SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre = ?;";
+			queryString = "SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre = \'" + genre + "\';";
 
 			pStatement = connection.prepareStatement(queryString);
-			pStatement.setString(1, genre);
 			rs = pStatement.executeQuery();
 
 			while (rs.next()) {
@@ -200,8 +199,9 @@ public class Assignment2 {
 			}
 			Collections.sort(arrayList);
 
-			queryString = "DROP VIEW SangByArtist;"+
-				"DROP VIEW SongsSangByArtist;";
+			queryString = "DROP VIEW SongsSangByArtist;" + 
+			
+			"DROP VIEW SangByArtist;";
 
 			statement2 = connection.createStatement();
 			statement2.executeUpdate(queryString);
@@ -231,44 +231,31 @@ public class Assignment2 {
 	 * @return         a sorted list of artist names
 	 */
 	public ArrayList<String> findAcquaintances(String artist1, String artist2) {
-		PreparedStatement pStatement;
-		ResultSet rs;
-		String queryString;
 		ArrayList<String> arrayList = new ArrayList<String>();
 
-		try {
-			Statement statement = connection.createStatement();
-			statement.execute("SET search_path TO artistdb");
+			ArrayList<String> collaboratersfor1 = findCollaborators(artist1);	
+			ArrayList<String> collaboratersfor2 = findCollaborators(artist2);	
+			ArrayList<String> writersfor1 = findSongwriters(artist1);
+			ArrayList<String> writersfor2 = findSongwriters(artist2);
 
+			ArrayList<String> acquaintances1 = new ArrayList<String>();
+			acquaintances1.addAll(collaboratersfor1);	
+			acquaintances1.addAll(writersfor1);
+			
+			ArrayList<String> acquaintances2 = new ArrayList<String>();
+			acquaintances2.addAll(collaboratersfor2);	
+			acquaintances2.addAll(writersfor2);
 
-			queryString = "CREATE VIEW GenreMatch AS SELECT Genre.genre_id, genre FROM Genre, Album WHERE Genre.genre_id = Album.genre_id;" +
-				"CREATE VIEW ArtistAlbum AS SELECT name, genre_id FROM Artist, Album WHERE Artist.artist_id = Album.artist_id;";
-
-			Statement statement2 = connection.createStatement();
-			statement2.executeUpdate(queryString);
-
-			queryString = "SELECT DISTINCT name FROM GenreMatch, ArtistAlbum WHERE ArtistAlbum.genre_id = GenreMatch.genre_id and GenreMatch.genre = \'" + genre + "\';";
-
-			pStatement = connection.prepareStatement(queryString);
-			rs = pStatement.executeQuery();
-
-			while (rs.next()) {
-
-				arrayList.add(rs.getString("name"));
+			for (int i = 0; i < acquaintances1.size(); i++){
+				for (int j = 0; j < acquaintances2.size(); j++){
+					if (acquaintances1.get(i) == acquaintances2.get(j)){
+						System.out.println(acquaintances1.get(i));
+						arrayList.add(acquaintances1.get(i));
+					}
+				}
 			}
-			Collections.sort(arrayList);
 
-			queryString = "DROP VIEW GenreMatch;"+
-				"DROP VIEW ArtistAlbum;";
-
-			statement2 = connection.createStatement();
-			statement2.executeUpdate(queryString);
-
-		} catch (SQLException se)
-		{
-			System.err.println("SQL Exception." +
-					"<Message>: " + se.getMessage());
-		}
+	   	Collections.sort(arrayList);	
 
 		return arrayList;
 	}
@@ -278,10 +265,9 @@ public class Assignment2 {
 		Assignment2 a2 = new Assignment2();
 
 		/* TODO: Change the database name and username to your own here. */
-		a2.connectDB("jdbc:postgresql://localhost:5432/csc343h-g5javier",
-		             "g5javier",
+		a2.connectDB("jdbc:postgresql://localhost:5432/csc343h-c5chenjk",
+		             "c5chenjk",
 		             "");
-
                 System.err.println("\n----- ArtistsInGenre -----");
                 ArrayList<String> res = a2.findArtistsInGenre("Rock");
                 for (String s : res) {
