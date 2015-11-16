@@ -15,7 +15,7 @@ CREATE VIEW SongsCovered AS
 
 
 
-SELECT  s1.song_name AS song_name, s1.year1 AS year, getArtistName.name AS name 
+SELECT  s1.song_name AS song_name, s1.year1 AS year, getArtistName.name AS artist_name 
 FROM SongsCovered s1, (SELECT name, year1
 		FROM SongsCovered temp_s, Artist
 		WHERE temp_s.artist1_id = Artist.artist_id
